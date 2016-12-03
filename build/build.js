@@ -9,23 +9,23 @@
 
 
 (function($){
-	$.FOOD = function($this, options){
+	$.COMMON = function($this, options){
 
-		this.settings = $.extend(true, {}, $.FOOD.defaults, options);
+		this.settings = $.extend(true, {}, $.COMMON.defaults, options);
 		this.$el = $this;      // parent container holding items
 
 	};
 
-	$.FOOD.defaults = { 
+	$.COMMON.defaults = { 
 		active: "FD-on",		// 显示|隐藏  className
  	};
 
-	/*$.FOOD.setDefaults = function(options){
-		$.FOOD.defaults = $.extend(true, {}, $.FOOD.defaults, options);
+	/*$.COMMON.setDefaults = function(options){
+		$.COMMON.defaults = $.extend(true, {}, $.COMMON.defaults, options);
 	};*/
 	
 
-	$.extend($.FOOD.prototype, {
+	$.extend($.COMMON.prototype, {
 		innit: function(){
 		},
 		dot: function(dot, tpl, data){
@@ -283,11 +283,11 @@
 		}
 	});
 
-	$.fn.FOOD = function(o) {
+	$.fn.COMMON = function(o) {
 		var o = o || {};
 		var $t = $(this);
 
-		return new $.FOOD($t,o);
+		return new $.COMMON($t,o);
 
 	};
 
@@ -299,5 +299,5 @@
 
 
 
-	module.exports = $.fn.FOOD;
+	module.exports = $.fn.COMMON;
 });
