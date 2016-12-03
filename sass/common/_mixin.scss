@@ -1,0 +1,38 @@
+/*
+	* Food mixin
+*/
+
+@mixin transform ($transform){
+	-webkit-transform:$transform; 
+	-moz-transform:$transform;
+	-ms-transform:$transform;
+		transform:$transform;  
+}
+
+@mixin transition ($transition){
+	-webkit-transition:$transition; 
+	-moz-transition:$transition;
+	-ms-transition:$transition;
+		transition:$transition;  
+}
+
+@mixin transform-origin ($origin){
+	-webkit-transform-origin:$origin; 
+	-moz-transform-origin:$origin;
+	-ms-transform-origin:$origin;
+		transform-origin:$origin;	
+}
+
+@mixin box-sizing ($origin){
+	-webkit-box-sizing:$origin; 
+	-moz-box-sizing:$origin;
+	-ms-box-sizing:$origin;
+		box-sizing:$origin;	
+}
+
+@mixin box-shadow ($origin){
+	-webkit-box-shadow:$origin; 
+	-moz-box-shadow:$origin;
+	-ms-box-shadow:$origin;
+		box-shadow:$origin;	
+}

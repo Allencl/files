@@ -1,0 +1,63 @@
+/*
+	* Food variables
+*/
+
+// font sise
+$font12:12px;
+$font14:14px; 
+$font16:16px; 
+
+
+
+// font color
+$Ffff:#fff;
+$Fccc:#989fa6;
+$Fblue:#452ae9;
+$F000:#393e47;
+$Ftheme:#91989f;
+
+$Fdanger:#fe0000;
+
+// input color
+$able:#fff;
+$disable:#f7f7f7;
+
+// button color
+$bBorder:#eef2f6;
+$bHover:#a295f4;
+$bActive:#d5dee7;
+
+
+// datatable
+$tHover:#f4f5fd;
+$tActive:#f4f5fd;
+$tIconHover:#a79bf2;
+$tBorder:#e9edf2;
+
+
+
+// theme color
+$fff:#fff;
+$line:#e9edf2;
+$title: #a295f4;
+$confirm:#a295f4;
+$cancel:#c5c5c5;
+
+
+
+// global
+.picker-defult{
+	background:$Fccc;
+}
+.picker-red{
+	background:#e02000;  
+}
+.picker-yellow{
+	background:#c9ad1a;
+}
+.picker-blue{
+	background:#26add7;
+}
+.picker-green{
+	background:#389c62;
+}

@@ -1,0 +1,17 @@
+----------------------------------------------------------------------------------------------------------------------------
+gulp
+	npm install -g gulp    （g 是全局，安装在c盘）
+	npm init		(设置 package文件，一路回车)
+	npm install gulp			(安装局部的gulp)
+
+	步骤
+	npm install -g gulp			(装一个全局的，后面可以直接调 gulp函数)
+	npm init				（一路回车）
+	npm install gulp --save-dev		（加 --save-dev ，package文件，随着步骤在更新方便后者）
+	npm install gulp-uglify	--save-dev 	(安装 压缩文件的包)
+
+
+
+
+npm uninstall <package name>	某个模块
+npm update <package name>	更新某个模块（若是全局模块加 -g）
