@@ -1,0 +1,279 @@
+/*
+	* 写邮件页面
+*/
+
+.write-page{
+	padding:0px 20px;
+
+	nav{
+
+		height:76px;
+		padding-top:19px;
+		border-bottom:1px solid $line;
+
+
+		ul{
+			display:inline-block;
+			height:100%;
+			@extend .fd-clear;
+
+			li{
+				float:left;
+				min-width:52px;
+				height:36px;
+				font-size:$font14;
+				color:$Fccc;
+				text-align:center;
+				line-height:36px;
+				margin-right:10px;
+				padding:0px 11px;
+				border:1px solid $bBorder;
+				border-radius:4px;
+				cursor:pointer;
+
+				&:hover{
+					color:$bHover;
+					border-color:$bHover;
+				}
+				&:active{
+					color:$bHover;
+					border-color:$bHover;
+					background:$bActive;				
+				}
+			}
+		}
+
+		ol{
+			display:inline-block;
+			float:right;
+			height:100%;
+			@extend .fd-clear;
+
+			li{
+				float:right;
+				width:30px;
+				height:30px;
+				color:$Fccc;
+				line-height:30px;
+				text-align:center;
+				margin-right:5px;
+				border:1px solid $Ffff;
+				border-radius:50%;
+				cursor:pointer;
+
+				&:hover{
+					text-decoration:none;
+					color:$tIconHover;
+					border-color:$tIconHover;
+				}
+			}			
+		}
+	}	
+
+	.content{
+		width:100%;
+		height:500px;
+
+		.head{
+			width:100%;
+			color:$Fccc;
+			margin-bottom:20px;
+
+			li{
+				width:100%;
+				font-size:$font14;
+				line-height:30px;
+
+				input.theme{
+					width:600px;
+					padding-left:10px;
+					font-size:14px;
+					font-weight:bold;
+					color:#383d45;
+					outline:none;
+					border:none;
+				}
+			
+			}
+
+			li[data-id="copyTo"]{
+				display:none;
+
+				&.on{
+					display:block;
+				}
+			}
+
+			li[data-id="furtive"]{
+				display:none;
+				
+				&.on{
+					display:block;
+				}
+			}
+
+			li[data-id="sendBox"]{
+				display:none;
+				
+				&.on{
+					display:block;
+				}
+
+				& a{
+					color:$bHover;
+				}
+			}
+
+			mark{
+				display:block;
+				padding:0px;
+				max-height:62px;
+    			overflow-y:auto;
+    			background:$Ffff;
+
+				span{
+					display:inline-block;
+					line-height:22px;
+					margin-left:5px;
+					padding:0px 8px 0px 7px;
+					border:1px solid $bBorder;
+					border-radius:10px;
+					background:$bActive;
+
+					i{
+						position:relative;
+						top:2px; 
+						left:2px; 
+						margin:0px;
+						cursor:pointer;
+
+						&:hover{
+							color:$Fdanger;
+						}
+					}
+				}
+
+				input{
+					width:200px;
+					border:none;
+					outline:none;
+				}
+			}
+
+			label{
+				float:left;
+				width:58px;
+				margin:0px;
+				color:$F000;
+			}
+
+			a{
+				font-style:none;
+				text-decoration:none;
+				color:$Fccc;
+
+				&:hover{
+					color:$bHover;
+				}
+
+				&.on{
+					color:$bHover;
+				}
+			}
+
+			p{
+				width:500px;
+				line-height:30px;
+				color:$F000;
+				@extend .font-hide;
+			}
+
+			p.right{
+				float:right;
+				text-align:right;
+			}
+
+			span{
+				padding-right:10px;
+
+				&.on{
+					display:none;
+				}
+
+			}
+
+			span.timeBox{
+				display:none;
+
+				input{
+					padding-left:10px;
+					border:none;					
+					outline:none;
+				}
+
+				&.on{
+					display:inline-block;
+				}
+			}
+
+			span.sendUser{
+				display:inline-block;
+				float:right;
+				position:relative;
+				width:300px;
+				height:30px;
+				padding-right:0px;
+				padding-left:60px;
+
+				span{
+					position:absolute;
+					top:0px;
+					left:0px;
+				}
+				div.chosen-container{
+					top:-2px;
+				}
+
+			}
+
+			blockquote{
+				display:inline-block;
+				width:26px;
+				height:30px;
+			}
+
+			em{
+				margin:0px 10px 0px 0px;
+			}
+
+			i{
+				margin-right:10px;
+			}
+			i.format{
+				display:inline-block;
+				width:24px;
+				height:24px;
+				line-height:24px;
+				text-align:center;
+				cursor:pointer;
+
+				&:hover{
+					color:#a295f4;
+				}
+
+				&.on{
+					@include transition(0.3s all ease);
+					@include transform(rotate(180deg));					
+				}
+			}
+			input[type=checkbox]{
+				position:relative;
+				top:4px;
+				width:16px;
+				height:16px;
+				margin-right:10px;
+			}
+		}
+
+	}
+}

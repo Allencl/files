@@ -1,0 +1,9 @@
+/*
+	*	summernote 编辑器
+*/
+
+.note-toolbar .note-btn-group{
+	&.on{
+		visibility:hidden;
+	}
+}

@@ -1,0 +1,20 @@
+/*
+ *	chosen 下拉控件
+*/
+
+.chosen-container-active .chosen-single{
+	box-shadow:none;
+	border:none;
+}
+.chosen-container-single .chosen-search input[type="text"]{
+	outline:none;
+}
+.chosen-container-active.chosen-with-drop .chosen-single{
+	border:none;
+}
+
+.write-page .content .head a{
+	span{
+		padding-left:10px;  
+	}
+}

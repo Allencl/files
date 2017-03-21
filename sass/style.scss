@@ -1,0 +1,37 @@
+/**
+ * Fooding Styles v1.0.0
+ * Created by baiyin
+ * Date created 2016.06.06
+ *
+ */
+
+
+// Food common
+@import "common/variables";
+@import "common/reset";
+@import "common/extend";
+@import "common/mixin";
+
+
+// plugin 插件样式调整
+@import "plugin/bootstrap";
+@import "plugin/datatables";
+@import "plugin/confirm";
+@import "plugin/chosen"; 
+@import "plugin/summernote"; 
+
+
+
+
+
+
+// 邮件主页
+@import "page/home"; 
+
+
+// 写邮件页面
+@import "page/write";
+
+
+// 列表页面
+@import "page/list";    

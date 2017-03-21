@@ -1,0 +1,746 @@
+/*
+	*	datatables 样式强制修改
+*/
+
+
+// 整体样式调整
+.dataTable{
+	table-layout: fixed;
+	border-collapse:collapse !important;
+	border:none !important;
+	thead{
+		font-size:$font14;
+		color:$Ftheme;
+		border-top:1px solid $tBorder;
+		border-bottom:1px solid $tBorder;
+
+
+		th{
+			padding:8px 10px 8px 8px !important;
+			text-align:left;
+			border:none !important;
+			background:#fff;
+		}
+	}
+
+	tbody{
+		font-size:$font14;
+		color:$F000;
+		tr{
+			border-bottom:1px solid $tBorder;
+
+			&:hover{
+				background:$tHover;
+			}
+
+				td{
+					padding:6px 10px 6px 8px !important;
+					text-align:left;
+					@extend .font-hide;
+					background:#fff;
+				}
+		}
+	}
+}
+
+// 选中
+table.dataTable tbody tr.selected{
+	background-color: $tActive;
+}
+
+// 功能样式 hide|show
+//.dataTables_length, .dataTables_filter, .dataTables_info, .dataTables_paginate{
+//	display:block; 		
+//}  
+.dataTables_info{
+	position:absolute;	   
+	left:55px;
+}
+.dataTables_length{
+	display:block;
+	margin-top:3px;
+	select{
+		width:50px;
+		height:30px;
+		outline:none;
+	}
+}
+
+// 附加样式 按钮图标
+.table-in-btn{
+	display:inline-block;
+	width:24px;
+	height:24px; 
+	margin-right:4px;
+	color:$Fccc;
+	font-weight:100;
+	line-height:24px;
+	text-align:center;
+	border:1px solid $fff;
+	border-radius:50%;
+
+	&:hover{
+		text-decoration:none;
+		color:$tIconHover;
+		border-color:$tIconHover;
+	}
+	&:active{
+		text-decoration:none;
+	}
+}
+// 附加样式 功能图标
+.dataTable{
+	overflow-x:hidden;
+	thead{	
+		th.mail{
+			background:none !important; 
+		}
+	}
+	tbody{
+		overflow:hidden !important;
+		a.mail{
+			text-decoration:none;
+			color:#a295f4;
+		}
+
+		a.favorite{
+			text-decoration:none;
+			color:$Fccc; 
+
+			&.on{
+				color:#ee2200;
+			}
+		}
+
+		td.picker{
+			position:relative;
+			overflow:visible;
+			cursor:pointer;
+
+			a{
+				color:$Fccc;
+			}
+			
+			ol{
+				position:absolute;
+				width:16px;
+				height:16px;
+				margin-top:2px;
+					
+				li{
+					display:none;					
+					width:16px;
+					height:16px;
+				}
+				li.on{
+					display:block;
+				}
+
+				li:nth-child(1){
+					background:#e02000;
+				}
+				li:nth-child(2){
+					background:#c9ad1a;
+				}
+				li:nth-child(3){
+					background:#26add7;
+				}
+				li:nth-child(4){
+					background:#389c62;
+				}
+			}
+
+			b.on{
+				display:block;				
+			}
+			
+			ul{
+				display:none;
+				position:absolute;
+				top:10px;
+				left:30px;
+				z-index:11111;
+				width:100px;
+				padding:7px 5px;
+				border:1px solid $Fccc;
+				border-radius:7px;
+				background:#fff;
+
+				&.on{
+					display:block;
+				}
+
+				li{
+					width:100%;
+					height:16px;
+					margin-bottom:5px;
+					background:yellow;
+					cursor:pointer;
+				}
+				p{	
+					text-align:center;
+					a{
+						text-decoration:none;
+						font-size:14px;
+						color:$F000;
+					}
+				}
+
+				li:nth-child(1){
+					background:#e02000;
+				}
+				li:nth-child(2){
+					background:#c9ad1a;
+				}
+				li:nth-child(3){
+					background:#26add7;
+				}
+				li:nth-child(4){
+					background:#389c62;
+				}
+			}
+		}
+
+		td.files{
+			position:relative;
+			overflow:visible;
+
+			div{
+				display:none;
+				&.on{
+					display:block;
+				}
+				mark{
+					background:#a295f4;
+					border-radius:2px;
+				}
+				span{
+					padding:0px 6px;
+				}
+				span[data-id]{
+					display:inline-block;
+					position:relative;
+					width:168px;
+					top:5px;
+					@extend .font-hide;
+				}
+				a[data-id]{
+					display:inline-block;
+					width:18px;
+					height:16px;
+					color:$Fccc;
+					line-height:10px;
+					text-decoration:none;
+					border:1px solid $Fccc;
+					border-radius:2px;
+					background:$Ffff;
+				}
+				a[data-id].on{
+
+					i{
+						display:inline-block;
+						@include transform(rotate(180deg));
+					}
+				}
+
+				ul{
+					display:none;
+					position:absolute;
+					top:38px;
+					left:0px;
+					z-index:11111;
+					width:97%;
+					max-height:130px;
+					padding-bottom:5px;
+					border:1px solid #a295f4;
+					border-radius:6px;
+					background:$Ffff;
+					overflow-y:scroll;
+
+					&.on{
+						display:block;
+					}
+
+					li{
+						padding:4px 0px 4px 7px;
+						@extend .font-hide;
+						cursor:pointer;
+
+						&:hover{
+							color:#a295f4;
+							background:#f0f0f0;
+						}
+						&:active{
+							color:$Ffff;
+							background:#b8b8b8;
+						}  
+					}
+					li:nth-child(1){
+						
+					}
+
+					p{
+						margin-top:5px;
+						text-align:center;
+
+						a{
+							display:inline-block;
+							width:26px;
+							height:26px;
+							line-height:26px;
+							text-align:center;
+							text-decoration:none;
+							color:$Fccc;
+							border:1px solid $tBorder;
+							border-radius:50%;
+
+							&:hover{
+								color:$tIconHover;
+							}
+							&:active{  
+								background:$tActive;  
+							} 
+						}
+					}
+				}
+			}
+
+			a.table-in-btn{
+				&.on{
+					display:none;
+				}
+			}
+		}
+
+		td.sender{
+			position:relative;
+			overflow:visible;
+
+			& > span{
+				display:inline-block;
+				width:100%;
+				@extend .font-hide;
+				cursor:pointer;
+
+				b{
+					display:inline-block;
+					width:20px;
+					height:20px;
+					margin-right:7px;
+					color:#fff;
+					line-height:20px;
+					text-align:center;
+					border-radius:50%;
+					background:#a295f4;
+				}
+
+				&:hover{
+					text-decoration:underline;
+				}
+			}
+
+			& > div{
+				display:none;
+				position:absolute;
+				top:40px;
+				left:20px;
+				z-index:111;
+				border-radius:6px;
+				background:#fff;
+				@include box-shadow(0px 0px 7px rgba(0,0,0,0.5));
+
+				&.on{
+					display:block;
+				}
+
+				&:before{
+					content:'';
+					display:block;
+					position:relative;
+					left:27px;
+					top:-7px;
+					width:13px;
+					height:13px;
+					background:#fff;
+					@include transform(rotate(45deg));
+				}
+
+				div.sender{
+					width:301px;
+					p{
+						width:100%;
+						padding:0px;
+						margin:0px;
+					}
+
+					p.head{
+						line-height:40px;
+						text-align:right;
+						font-size:14px;
+						color:#3f444c;
+
+						span{
+							padding-right:15px;
+							cursor:pointer;
+						}
+						i{
+							padding-right:5px;
+						}
+					}
+
+					p.mail{
+						font-size:16px;
+						line-height:18px;
+						color:#1c222b;
+						text-align:center;
+						margin-bottom:20px;
+						@extend .font-hide;
+					}
+
+					p.btn{
+						height:40px;
+						background:#a295f4;
+						border-radius:0px 0px 6px 6px;
+
+						span{
+							display:inline-block;
+							width:150px;
+							font-size:12px;
+							text-align:center;
+							line-height:40px;
+							color:$Ffff;
+
+						}
+						b{
+							display:inline-block;
+							position:relative;
+							top:6px;
+							width:1px;
+							height:23px;
+							background:$Ffff;
+						}
+					}
+				}
+
+				div.theme{
+					width:438px;				
+					nav{
+						position:relative;
+						width:100%;
+						height:84px;
+						padding-left:110px;
+
+						img{
+							position:absolute;
+							top:0px;
+							left:14px;
+							width:80px;
+							height:80px;
+							border:none;
+							background:$Fccc;
+						}
+
+						p{
+							width:100%;
+
+						}
+
+						p.name{
+							font-size:18px;
+							line-height:30px;
+							color:#1d232c;
+						}
+
+						p.mail{
+							font-size:14px;
+							line-height:18px;
+							color:#8c8c8c;
+						}
+
+						span.write{
+							position:absolute;
+							top:0px;
+							right:0px;
+							width:66px;
+							height:34px;
+							font-size:14px;
+							line-height:34px;
+							text-align:left;
+							color:#000;
+							cursor:pointer;
+
+							span{
+								padding-left:7px;
+							}
+
+						}
+
+						div.btn-unit{
+							width:100%;
+							height:22px;	
+							padding-top:10px;
+							a{
+								position:relative;
+								width:30px;
+								padding:0px 8px;
+								margin-right:10px;
+								font-size:16px;
+								line-height:22px;
+								text-align:center;
+								text-decoration:none;
+								color:#8b8b8b;
+								border:1px solid #d9ecea;
+								border-radius:10px; 
+
+								&:hover{
+									i{
+										color:#bdf1eb;
+									}
+								}
+
+								i.arrows{
+									display:inline-block;
+									margin-left:5px;
+								}
+
+								ul{
+									display:none; 
+									position:absolute;
+									top:30px;
+									right:0px;
+									z-index:111111;
+									width:200px;
+									max-height:70px;
+									margin:0px;
+									padding:6px 0px;
+									border:1px solid red;
+									border:1px solid #f9fafc;
+									border-radius:6px;
+									background:#fff;
+									@include box-shadow(0px 0px 7px rgba(0,0,0,0.5));
+									overflow-y:auto;
+
+
+									li{
+										width:100%;
+										height:22px;
+										padding:0px 7px;
+										margin:0px;
+										line-height:22px;
+										text-align:left;
+										@extend .font-hide;
+
+										&:hover{
+											color:#fff;
+											background:#d9ecea;
+										}
+									}
+								}
+							}
+
+							a.mail{
+								&.on{
+
+									i.arrows{
+										@include transition(0.3s all ease);
+										@include transform(rotate(180deg));		
+									}  
+
+									ul{
+										display:block;
+									}
+								}
+
+
+							}					
+						}
+					}
+					ul{
+						width:100%;
+						padding-top:6px;
+
+						li{
+							float:left;
+							width:200px;
+							margin-bottom:7px;
+							padding-left:16px;
+ 							line-height:32px; 
+
+ 							i{
+ 								margin-top:3px; 
+ 								font-size:16px;
+ 								padding-top:3px;
+ 								color:#747272;
+ 							}
+							span{
+								float:right;
+								display:inline-block;
+								width:160px; 
+								font-size:14px;
+						
+								color:#1c222b;
+								@extend .font-hide;
+							}
+						}
+
+						li.mail{
+							position:relative;
+
+							i.arrows{
+								display:inline-block;
+								position:absolute;
+								top:0px;
+								right:-10px;
+								width:22px;
+								height:22px;   
+								line-height:18px;   
+								text-align:center;
+								cursor:pointer;
+							}
+
+							ul{
+								display:none; 
+								position:absolute;
+								top:30px;
+								right:0px;
+								width:200px;
+								max-height:70px;
+								margin:0px;
+								padding:6px 0px;
+								border:1px solid red;
+								border:1px solid #f9fafc;
+								border-radius:6px;
+								background:#fff;
+								@include box-shadow(0px 0px 7px rgba(0,0,0,0.5));
+								overflow-y:auto;
+
+
+								li{
+									width:100%;
+									height:22px;
+									padding:0px 7px;
+									margin:0px;
+									line-height:22px;
+									text-align:left;
+									@extend .font-hide;
+									cursor:pointer;
+
+									&:hover{
+										color:#fff;
+										background:#d9ecea;
+									}
+								}
+							}
+
+							&.on{
+
+								i.arrows{
+									line-height:16px;   								
+									@include transition(0.3s all ease);
+									@include transform(rotate(180deg));		
+								}  
+
+								ul{
+									display:block;
+								}
+							}
+
+						}
+					}
+					& > p{
+						width:100%;
+						height:40px; 
+						line-height:40px;
+						text-align:center;
+						color:#fff;
+						background:#a295f4;
+						border-radius:0px 0px 6px 6px;
+						cursor:pointer;
+					}
+				}
+			}
+		}
+		td.theme{
+			cursor:pointer;
+
+			&:hover{
+				text-decoration:underline;
+			}
+		}
+	}
+}
+
+// 附加样式 复选框图标
+.dataTable{
+	tr{
+		.check-item{
+			position:relative;
+			color:rgba(0,0,0,0);
+
+			&:after{
+				content:'';
+				display:block;
+				width:15px;
+				height:15px;
+				border:1px solid rgba(0,0,0,0);
+			}
+
+			&:before{
+				font-family: 'fooding';
+  				content: "\2714"; 
+  				position:absolute;
+  				top:9px;
+  				left:10px; 
+			}
+
+			&:hover{
+				color:$Ffff;
+
+				&:after{
+					border-color:$Fccc;
+				}	
+			}
+		}
+	}
+
+	tr.selected{
+		.check-item{
+			&:before{
+				color:$F000;
+			}
+		}
+	}
+}  
+
+
+
+
+
+
+
+// 带列表滚动的 table
+.dataTables_scroll{
+	position:relative;
+
+}
+.dataTables_scrollHead{
+	position:fixed !important;
+	top:76px; 
+	z-index:11111;	
+	background:#fff;
+
+}
+
+.dataTables_scrollBody{
+	top:-38px; 
+	z-index:111;  
+	padding-right:20px;	
+	overflow-x:hidden;
+
+	thead{
+		visibility:hidden;
+	}
+}
+.dataTables_wrapper.no-footer .dataTables_scrollBody{
+	border-bottom:none;	
+}
