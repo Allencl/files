@@ -2,12 +2,13 @@
   .template-canvas-box{
     position: relative;
     padding: 50px 210px 10px 210px;
+    min-height: 670px;
     // background:rgba(255,255,153,0.5);
 
     .tool-bar {
       position: absolute;
       left: 0px;
-      top: 10px;
+      top: 8px;
       height: 50px;
       width: 100%;
       padding: 0px 15px;
@@ -39,6 +40,10 @@
         // position: absolute;
         // left: 12px;
 
+      }
+
+      .iconfont{
+        font-size: 20px;
       }
 
       .disable {
@@ -123,6 +128,72 @@
           }
         }
       }
+
+      .ivu-collapse.custom{
+        .ivu-collapse-content{
+          padding: 0px;
+        }
+        .ivu-collapse-content-box{
+          padding-top: 0px;
+          padding-bottom: 0px;
+        }
+      }
+
+      .template-library{
+          max-height: 300px;
+          overflow-y: auto;
+          padding: 10px 13px;
+
+          li{
+            position: relative;
+            list-style: none;
+            width: 100%;
+            height: 57px;
+            border: 1px solid rgba(203,203,203,0.6);
+            padding: 8px 5px 8px 5px;
+            margin-bottom: 10px;
+            box-shadow: 3px 3px 3px rgba(203, 203, 203, 0.5);
+            cursor: pointer;
+            transition: all 0.5s;
+
+
+            &:hover{
+              transform: skewX(10deg);
+            }
+
+            span{
+              width: 100%;
+              display: block;
+              display: inline-block;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              padding-right: 15px;
+            }
+
+            .close{
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                border-radius: 100%;
+                background: #d3d3ff;
+                cursor: pointer;
+                font-size: 19px;
+                color: #fff;
+                margin: 5px;
+                transition: all 0.6s;
+
+
+
+                &:hover{
+                    background: #990000;
+                    transform: scale(1.1,1.1);
+                }
+            }
+
+
+          }
+      }
     }
 
     .cnavas-contend{
@@ -165,8 +236,8 @@
 <template>
   <div class="template-canvas-box">
     <div class="tool-bar">
-        <!-- <a href="javascript:;"><i @click="undo" class="command iconfont icon-undo" title="撤销"></i></a> -->
-        <!-- <a href="javascript:;"><i data-command="redo" class="command iconfont icon-redo disable" title="重做"></i></a> -->
+        <!-- <a href="javascript:;"><i @click="toolEvent('undo')" :class="`command iconfont icon-undo ${current?'':'disable'}`" title="撤销"></i></a> -->
+        <!-- <a href="javascript:;"><i @click="toolEvent('redo')" :class="`command iconfont icon-redo ${(config['length']==cacheMax)?'':'disable'}`" title="重做"></i></a> -->
         
         <a href="javascript:;"><i @click="toolEvent('copy')" class="command iconfont icon-copy-o" title="复制"></i></a>
         <a href="javascript:;"><i @click="toolEvent('paste')" :class="`command iconfont icon-paster-o ${isCopy?'':'disable'}`" title="粘贴"></i></a>
@@ -255,7 +326,7 @@
           <a href="javascript:;" style="margin-left:50px;"><span class="cut custom iconfont icon-cut-off"></span></a>
         
         <a href="javascript:;"><span class="custom iconfont icon-SVG" title="预览" @click="previewHandle"></span></a>
-        <a href="javascript:;"><span class="custom iconfont icon-save" title="保存" @click="saveHandle"></span></a>
+        <a href="javascript:;"><span class="custom iconfont icon-save" title="保存模板" @click="saveHandle"></span></a>
 
         <!-- <span class="separator"></span> -->
         <!-- <a href="javascript:;"><i data-command="zoomOut" class="command iconfont icon-zoom-out-o" title="缩小"></i></a> -->
@@ -274,8 +345,7 @@
 
       <Collapse v-model="Collapse1">
           <Panel name="1">
-              工具箱  
-              <!-- <p slot="content">史蒂夫·乔布斯（Steve Jobs），1955年2月24日生于美国加利福尼亚州旧金山，美国发明家、企业家、美国苹果公司联合创办人。</p> -->
+            工具箱  
             <ul slot="content" class="common-library">
               <li>
                 <img 
@@ -320,7 +390,26 @@
             </ul>
           </Panel>
       </Collapse>
+      <Collapse v-model="Collapse2" class="custom">
+          <Panel name="1">
+            自定义-模板库  
+            <div slot="content">
+                <ul v-if="templateLocal['length']" class="template-library">
+                  <li v-for="(o,i) in templateLocal" :key="i" @click="templateLoader(o)">
+                      <span :title="o['templateName']">{{ o['templateName'] }}</span>
+                      <i>{{ o['createTime'] }}</i>
+                      <Icon @click="closeTemplate(o)" class="close" type="ios-close"></Icon>
+                  </li>         
+                </ul>
 
+                <div v-else style="text-indent: 25px;padding:17px 15px;">
+                  <span>编辑完成后，请点击工具栏“保存模板”按钮 [</span>
+                  <span class="custom iconfont icon-save"></span>
+                  <span> ]。保存模板至模板库</span>
+                </div>
+            </div>
+          </Panel>
+      </Collapse>
 
     </div>
     <div class="cnavas-contend">
@@ -329,7 +418,7 @@
     <div class="tool-selected">
 
 
-      <Collapse v-if="fabricType=='img'" v-model="Collapse2">
+      <Collapse v-if="fabricType=='img'" v-model="Collapse3">
           <Panel name="1">
               图片-设置  
               <ul slot="content" class="control-param">
@@ -344,7 +433,7 @@
               </ul>
           </Panel>
       </Collapse> 
-      <Collapse v-else v-model="Collapse2">
+      <Collapse v-else v-model="Collapse3">
           <Panel name="1">
               画布-设置  
               <ul slot="content" class="control-param">
@@ -369,15 +458,50 @@
       </Collapse>      
 
 
-      <!-- 背景图片 modal -->
+      <!-- 保存模板 modal -->
       <Modal
-          v-model="modal1"
-          title="设置-背景图片"
+          v-model="modalSave"
+          title="保存-自定义模板"
+          @on-ok="templateSaveHandle"
+
+        >
+
+          <Input v-model="templateName" placeholder="请输入模板名称..." />
+      </Modal>
+
+      <!-- 画布背景 modal -->
+      <Modal
+          v-if="fabricType=='img'"
+          v-model="modalCanvas"
+          title="设置-图片背景"
+          @on-ok="addImgBackgroundHandle"
+
+        >
+          <span>注：请输入网络地址。</span>
+          <br/>
+          <span style="font-style:oblique;">例：https://gw.alipayobjects.com/zos/basement_prod/dd371ce9-ee8b-46b3-9cfa-de49f853673d.svg</span>
+          <br/>
+          &nbsp;
+          <Input v-model="imgBackgroundURLValue" placeholder="请输入图片地址..." />
+      </Modal>
+
+      <!-- 图片背景 modal -->
+      <Modal
+          v-else
+          v-model="modalImg"
+          title="设置-画布背景"
           @on-ok="addBackgroundHandle"
 
         >
+          <span>注：请输入网络地址。</span>
+          <br/>
+          <span style="font-style:oblique;">例：https://gw.alipayobjects.com/zos/basement_prod/dd371ce9-ee8b-46b3-9cfa-de49f853673d.svg</span>
+          <br/>
+          &nbsp;
           <Input v-model="backgroundURLValue" placeholder="请输入图片地址..." />
       </Modal>
+
+
     </div>
   </div>
 </template>
@@ -390,34 +514,44 @@ export default {
   data() {
     return {
 
-      modal1:false,
+      modalCanvas:false,
+      modalImg:false,
+      modalSave:false,
+
 
       Collapse1:'1',
       Collapse2:'1',
+      Collapse3:'1',
       colorFont:'#000',
       colorFontBackground:'#fff',
       canvasBackground:'#fff',
       backgroundURLValue:'',
-
+      imgBackgroundURLValue:'',
 
       dragTarget:null,      // 拖拽对象
       isCopy:false,         // 已复制
       selectionTed:false,   // 是否选中
       fabricType:null,      // 挂件类型
+      config:[],            // 历史记录
+      cacheMax:30,          // 最大 历史记录
+      current:0,            // 当前状态
+      templateLocal:[],     // 缓存模板
+      
 
       // 画布 设置  
       canvasWidth:1100,
       canvasHeight:1600,
       fontFamily:'monospace',
-      fontSize:12,
+      fontSize:14,
     
 
     }
   },
   mounted(){
-      this.initCanvas(); 	 // 初始化
-      this.eventHandle();  // 事件 初始化
-      
+      this.initCanvas(); 	            // 初始化
+      this.eventHandle();             // 事件 初始化
+      this.updateTemplateFunuc();     // 缓存模板
+    
   },
   watch: {
     /**
@@ -498,7 +632,7 @@ export default {
 
         let that = this;
 
-        // add 挂件
+        // 拖拽事件 
         this.__canvas.on('drop', function(option) {
 
           // 默认值 
@@ -529,14 +663,43 @@ export default {
         });
 
 
-        // 选中
+
+
+        /************   对象 事件 begin   *****************/
+        // 对象 创建  
+        this.__canvas.on('object:added', function(option) {
+            // (option['jsonSource']!='history') && that.cacheStatus();  // 缓存
+        });
+
+        // 对象 删除 
+        this.__canvas.on('object:removed', function(option) {
+
+            // that.cacheStatus();  // 缓存
+        });
+
+        // 对象 修改  
+        this.__canvas.on('object:modified', function(option) {
+
+            // that.cacheStatus();  // 缓存
+        });
+        
+
+        /************   对象 事件 over   *****************/
+
+
+
+
+
+
+
+        /************   select 事件 begin   *****************/
+
+        // 选中 创建
         this.__canvas.on('selection:created', function(option) {
             let object = that.__canvas.getActiveObject();
 
             that.selectionTed = true;   // 选中
             that.fabricType = object['fabricType'];  // 挂件类型
-
-
 
 
             // 获取 字体颜色 背景
@@ -548,20 +711,57 @@ export default {
         });
 
 
+        // 选中 更新
+        this.__canvas.on('selection:updated', function(option) {
+            let object = that.__canvas.getActiveObject();
+
+            that.fabricType = object['fabricType'];  // 挂件类型
+
+            // 获取 字体颜色 背景
+            if( object['fabricType'] == 'text' ) {
+              that.colorFont = object['fill']||'#000';
+              that.colorFontBackground = object['backgroundColor']||'#fff';
+            }
+
+        });
+
         // 不选中
         this.__canvas.on('selection:cleared', function(option) {
             that.selectionTed = false;
+            that.fabricType = null;
             that.colorFont = '#fff';
             that.colorFontBackground = '#fff';
 
         });
 
+        /************   select 事件 over   *****************/
 
 
 
 
 
 
+    },
+    /**
+     *  使用自定义 模板
+     */
+    templateLoader: function(json){
+        let canvas = this.__canvas;
+        canvas.loadFromJSON(json,canvas.renderAll.bind(canvas));
+    },
+    /**
+     *  缓存  状态
+     */
+    cacheStatus: function(){
+        let json = this.__canvas.toJSON();
+        let config = this.config;
+        
+        if( config['length'] >= this.cacheMax ){
+            config = config.slice(1);
+        }
+        
+        this.config = config.concat([Object.assign({},json,{jsonSource:'history'})]);
+        this.current = this.config['length']-1;
     },
     /**
      * ***********************    面板 事件  begin   **********************
@@ -573,13 +773,59 @@ export default {
       this.dragTarget = key; 
     },
     /**
-     *  add 背景 URL
+     *  删除 模板 
+    */
+    closeTemplate: function(option){
+        let tpl = localStorage.getItem("templateCustom");
+        let newJson = JSON.parse(tpl).filter(o=>o['createTime']!=option['createTime']);
+    
+        localStorage.setItem("templateCustom",JSON.stringify(newJson) );
+        this.updateTemplateFunuc();   // 刷新缓存 
+    },
+    /**
+     *  add 画布背景 URL
      */
     addBackgroundURL: function(){
-        this.modal1 = true;
-    },    
+        this.modalImg = true;
+    },  
     /**
-     * 设置 背景图片
+     *  add 图片背景 URL
+    */
+    addImgBackgroundURL: function(){
+        this.modalCanvas = true;
+    },  
+    /**
+     * 设置 图片背景
+    */
+    addImgBackgroundHandle: function(){
+
+        let canvas = this.__canvas;
+        let url = this.imgBackgroundURLValue.trim();
+        let object = canvas.getActiveObject();
+
+        if( !url ) return;
+
+        fabric.Image.fromURL(url, function(img) {
+          // img.scale(0.5).set({
+          //   left: 100,
+          //   top: 100,
+          //   angle: -15,
+          //   clipTo: function (ctx) {
+          //     ctx.arc(0, 0, radius, 0, Math.PI * 2, true);
+          //   }
+          // });
+          img.set({
+            fabricType:'img',  // 挂件类型
+            left: object['left'],
+            top: object['top'],
+          });
+          canvas.add(img).setActiveObject(img);
+          canvas.remove(object);  
+
+        });
+    },         
+    /**
+     * 设置 画布背景
      */
     addBackgroundHandle: function(){
         let url = this.backgroundURLValue.trim();
@@ -594,26 +840,18 @@ export default {
         });
     },
     /**
-     * 设置 图片背景
-     */
-    addImgBackgroundURL: function(){
-        let url = this.backgroundURLValue.trim();
-        let canvas = this.__canvas;
-        // getActiveObject()
-        if( !url ) return;
-        // canvas.fromURL(url,canvas.renderAll.bind(canvas), {
-        //   width: canvas.width,
-        //   height: canvas.height,
-        //   originX: 'left',
-        //   originY: 'top'
-        // });
-    },    
-    /**
      *  工具 事件
      */
     toolEvent: function(active){
 
       switch (active) {
+        
+        case 'undo':      // 撤销
+            this.toolEventUndo();
+            break;
+        case 'redo':      // 重做
+            this.toolEventRedo();
+            break;                    
         case 'copy':      // 复制
             this.toolEventCopy();
             this.isCopy = true;
@@ -650,16 +888,93 @@ export default {
       }
     },
     /**
-     * ***********************    面板 事件  over   **********************
+     *  刷新缓存
      */
+    updateTemplateFunuc: function(){ 
+        let tpl = localStorage.getItem("templateCustom")||"[]";
+
+        this.templateLocal = JSON.parse( tpl );
+
+    },
+    /**
+     * ***********************    面板 事件  over   **********************
+    */
     /**
      * ***********************     event - tool  begin  **********************
-     */
+    */   
+    /**
+     *  tool 撤销
+    */    
+    toolEventUndo: function(){
+        let that = this; 
+        let canvas = this.__canvas;      
+        let cur = this.current;
+
+
+        // if( cur > 0 ) {
+        //   this.current = cur-1;
+
+        //   this.$nextTick(()=>{
+        //     let len = that.current;
+        //     canvas.loadFromJSON(that.config[len],canvas.renderAll.bind(canvas),function(json,obj){
+        //       obj.set({jsonSource:"history"});
+        //     });
+        //   });
+
+
+        //   console.log( this.current );
+        //   console.log( this.config );
+        // }
+    },
+    /**
+     *  tool 重做
+     */    
+    toolEventRedo: function(){
+        let that = this; 
+        let canvas = this.__canvas;
+        let cur = this.current;
+
+        // if( cur < (that.config.length-1) ) {
+        //   this.current = cur+1;
+
+        //   this.$nextTick(()=>{
+        //     let len = that.current;
+        //     canvas.loadFromJSON(that.config[len],canvas.renderAll.bind(canvas),function(json,obj){
+        //       obj.set({jsonSource:"history"});
+        //     });
+        //   });
+        // }
+
+
+    },        
     /**
      *  tool 保存
      */    
     saveHandle: function(){
+        
+        this.modalSave = true; 
+        // this.$Notice.open({
+        //     duration:0,
+        //     title: '保存json文件',
+        //     desc: JSON.stringify( json ) 
+        // });
+
+        // this.templateSaveHandle(json); 
+
+    },
+    /**
+     *  tool 保存模板到本地
+     */    
+    templateSaveHandle: function(){
+        let name = (this.templateName||'').trim();
+        if(!name) return;
+
         let json = this.__canvas.toJSON();
+        let temp = localStorage.getItem("templateCustom") || "[]";    
+        let newJson = JSON.parse(temp).concat([Object.assign({},json,{templateName:name,createTime:new Date().toLocaleString()})]);
+
+        localStorage.setItem("templateCustom",JSON.stringify(newJson) );
+        this.updateTemplateFunuc();    // 刷新模板
 
 
         this.$Notice.open({
@@ -667,6 +982,7 @@ export default {
             title: '保存json文件',
             desc: JSON.stringify( json ) 
         });
+
     },
     /**
      *  tool 预览
