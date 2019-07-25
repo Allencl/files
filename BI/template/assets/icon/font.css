@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'iconfont';
-  src:  url('fonts/iconfont.eot?4pghhg');
-  src:  url('fonts/iconfont.eot?4pghhg#iefix') format('embedded-opentype'),
-    url('fonts/iconfont.ttf?4pghhg') format('truetype'),
-    url('fonts/iconfont.woff?4pghhg') format('woff'),
-    url('fonts/iconfont.svg?4pghhg#iconfont') format('svg');
+  src:  url('fonts/iconfont.eot?bcrogd');
+  src:  url('fonts/iconfont.eot?bcrogd#iefix') format('embedded-opentype'),
+    url('fonts/iconfont.ttf?bcrogd') format('truetype'),
+    url('fonts/iconfont.woff?bcrogd') format('woff'),
+    url('fonts/iconfont.svg?bcrogd#iconfont') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -17,6 +17,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-font-center:before {
+  content: "\e91f";
+}
+.icon-font-left:before {
+  content: "\e920";
+}
+.icon-font-right:before {
+  content: "\e921";
+}
+.icon-text-align:before {
+  content: "\e922";
+}
+.icon-add:before {
+  content: "\e91e";
+}
 .icon-PNG:before {
   content: "\e906";
 }

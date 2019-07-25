@@ -236,8 +236,8 @@
 <template>
   <div class="template-canvas-box">
     <div class="tool-bar">
-        <!-- <a href="javascript:;"><i @click="toolEvent('undo')" :class="`command iconfont icon-undo ${current?'':'disable'}`" title="撤销"></i></a> -->
-        <!-- <a href="javascript:;"><i @click="toolEvent('redo')" :class="`command iconfont icon-redo ${(config['length']==cacheMax)?'':'disable'}`" title="重做"></i></a> -->
+        <a href="javascript:;"><i @click="toolEvent('undo')" :class="`command iconfont icon-undo ${currentNow?'':'disable'}`" title="撤销"></i></a>
+        <a href="javascript:;"><i @click="toolEvent('redo')" :class="`command iconfont icon-redo ${( configArr['length'] && (currentNow<(configArr['length'])))?'':'disable'}`" title="重做"></i></a>
         
         <a href="javascript:;"><i @click="toolEvent('copy')" class="command iconfont icon-copy-o" title="复制"></i></a>
         <a href="javascript:;"><i @click="toolEvent('paste')" :class="`command iconfont icon-paster-o ${isCopy?'':'disable'}`" title="粘贴"></i></a>
@@ -279,8 +279,8 @@
         <a href="javascript:;"><i @click="toolEvent('toFront')" :class="`command iconfont icon-to-front ${selectionTed?'':'disable'}`" title="层级置顶"></i></a>
         <a href="javascript:;"><i @click="toolEvent('lock')" :class="`command iconfont icon-cut-lock ${selectionTed?'':'disable'}`" title="锁定"></i></a>
         <a href="javascript:;"><i @click="toolEvent('unlock')" class="command iconfont icon-cut-unlock" title="解锁全部"></i></a>
-        <a href="javascript:;"><i @click="toolEvent('group')" :class="`command iconfont icon-group ${selectionTed?'':'disable'}`" title="合并"></i></a>
-        <a href="javascript:;"><i @click="toolEvent('ungroup')" :class="`command iconfont icon-ungroup ${selectionTed?'':'disable'}`" title="分解"></i></a>
+        <!-- <a href="javascript:;"><i @click="toolEvent('group')" :class="`command iconfont icon-group ${selectionTed?'':'disable'}`" title="合并"></i></a> -->
+        <!-- <a href="javascript:;"><i @click="toolEvent('ungroup')" :class="`command iconfont icon-ungroup ${selectionTed?'':'disable'}`" title="分解"></i></a> -->
          
         <a href="javascript:;"><span class="cut custom iconfont icon-cut-off"></span></a>
 
@@ -319,11 +319,23 @@
         <a href="javascript:;"><i @click="toolFontEvent('fontStyle')" :class="`command iconfont icon-font-style ${selectionTed?'':'disable'}`" title="倾斜"></i></a>
         <a href="javascript:;"><i @click="toolFontEvent('fontWeight')" :class="`command iconfont icon-font-weight ${selectionTed?'':'disable'}`" title="加粗"></i></a>
         <a href="javascript:;"><i @click="toolFontEvent('textDecoration')" :class="`command iconfont icon-font-under ${selectionTed?'':'disable'}`" title="下划线"></i></a>
-        <a href="javascript:;" style="cursor:default;"><i :class="`command iconfont icon-font-color ${selectionTed?'':'disable'}`" title="字体颜色"></i></a>
-        <ColorPicker v-model="colorFont" />
-        <a href="javascript:;" style="cursor:default;margin-left:56px;"><i :class="`command iconfont icon-font-background ${selectionTed?'':'disable'}`" title="字体背景色"></i></a>
-        <ColorPicker v-model="colorFontBackground" />
-          <a href="javascript:;" style="margin-left:50px;"><span class="cut custom iconfont icon-cut-off"></span></a>
+        
+        <Dropdown @on-click="textAlignChange">
+            <a href="javascript:;" style="color:inherit;">
+                <i :class="`command iconfont icon-text-align ${selectionTed?'':'disable'}`" title="对齐方式"></i>
+            </a>
+            <DropdownMenu slot="list">         
+                <DropdownItem name="left"><i class="iconfont icon-font-left" title="左对齐"></i> 左对齐</DropdownItem>
+                <DropdownItem name="center"><i class="iconfont icon-font-center" title="居中"></i> 居中</DropdownItem>
+                <DropdownItem name="right"><i class="iconfont icon-font-right" title="右对齐"></i> 右对齐</DropdownItem>
+            </DropdownMenu>
+        </Dropdown>  
+        
+        <!-- <a href="javascript:;" style="cursor:default;"><i :class="`command iconfont icon-font-color ${selectionTed?'':'disable'}`" title="字体颜色"></i></a> -->
+        <!-- <ColorPicker v-model="colorFont" /> -->
+        <!-- <a href="javascript:;" style="cursor:default;margin-left:56px;"><i :class="`command iconfont icon-font-background ${selectionTed?'':'disable'}`" title="字体背景色"></i></a> -->
+        <!-- <ColorPicker v-model="colorFontBackground" /> -->
+          <a href="javascript:;" style="margin-left:0px;"><span class="cut custom iconfont icon-cut-off"></span></a>
         
         <a href="javascript:;"><span class="custom iconfont icon-SVG" title="预览" @click="previewHandle"></span></a>
         <a href="javascript:;"><span class="custom iconfont icon-save" title="保存模板" @click="saveHandle"></span></a>
@@ -353,7 +365,7 @@
                   @dragend="dragPanelHandle(null)" 
                   src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTYzNzA0NDk4NzM1IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE1NjMiIGRhdGEtc3BtLWFuY2hvci1pZD0iYTMxM3guNzc4MTA2OS4wLmkwIiB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwvc3R5bGU+PC9kZWZzPjxwYXRoIGQ9Ik0xMjggODUzLjMzMzMzM2g3NjhhNDIuNjY2NjY3IDQyLjY2NjY2NyAwIDAgMCA0Mi42NjY2NjctNDIuNjY2NjY2VjIxMy4zMzMzMzNhNDIuNjY2NjY3IDQyLjY2NjY2NyAwIDAgMC00Mi42NjY2NjctNDIuNjY2NjY2SDEyOGE0Mi42NjY2NjcgNDIuNjY2NjY3IDAgMCAwLTQyLjY2NjY2NyA0Mi42NjY2NjZ2NTk3LjMzMzMzNGE0Mi42NjY2NjcgNDIuNjY2NjY3IDAgMCAwIDQyLjY2NjY2NyA0Mi42NjY2NjZ6TTE3MC42NjY2NjcgMjU2aDY4Mi42NjY2NjZ2NTEySDE3MC42NjY2NjdWMjU2eiIgZmlsbD0iIzBhMGEwYSIgcC1pZD0iMTU2NCI+PC9wYXRoPjwvc3ZnPg=="
                 >
-                <p>方形</p>
+                <p>矩形</p>
               </li>
               <li>
                 <img 
@@ -379,6 +391,22 @@
                 >
                 <p>图片</p>
               </li>
+              <li>
+                <img 
+                  @dragstart="dragPanelHandle('QR_code')" 
+                  @dragend="dragPanelHandle(null)" 
+                  src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTY0MDIwNTQ0MjI1IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjQxMjYiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzIiIGhlaWdodD0iMzIiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTE5OS4xNDMgMzM2LjI4NWgxMzcuMTQzdi0xMzcuMTQzaC0xMzcuMTQzdjEzNy4xNDN6TTg5My40MjggNTQyaDY4LjU3MnYyMTQuMjg2aC02OC41NzJ2LTY4LjU3MmgtNjguNTcydi03Ny4xNDJoLTY4LjU3MnYtNjguNTcyaDY4LjU3MnY2OC41NzJoNjguNTcydi02OC41NzJ6TTY4Ny43MTUgNjg3LjcxNWgxMzcuMTQzdjEzNy4xNDNoNjguNTcydjY4LjU3Mmg2OC41NzJ2NjguNTcyaC0xMzcuMTQzdi02OC41NzJoLTY4LjU3MnYtMTM3LjE0M2gtNjguNTcydjY4LjU3MmgtNzcuMTQydjY4LjU3Mmg3Ny4xNDJ2NjguNTcyaC0xNDUuNzE0di00MjBoMTQ1LjcxNHY2OC41NzJoLTc3LjE0MnYxNDUuNzE0aDc3LjE0MnYtNjguNTcyek02MiA5NjJoNDExLjQyOHYtNDIwaC00MTEuNDI4djQyMHpNMTMwLjU3MiA2MTAuNTcxaDI3NC4yODV2MjgyLjg1OGgtMjc0LjI4NXYtMjgyLjg1OHpNMTk5LjE0MyA4MjQuODU3aDEzNy4xNDN2LTEzNy4xNDNoLTEzNy4xNDN2MTM3LjE0M3pNNTQyIDYydjQxMS40MjhoNDIwdi00MTEuNDI4aC00MjB6TTg5My40MjggNDA0Ljg1N2gtMjgyLjg1OHYtMjc0LjI4NWgyODIuODU4djI3NC4yODV6TTYyIDQ3My40MjhoNDExLjQyOHYtNDExLjQyOGgtNDExLjQyOHY0MTEuNDI4ek0xMzAuNTcyIDEzMC41NzJoMjc0LjI4NXYyNzQuMjg1aC0yNzQuMjg1di0yNzQuMjg1ek04MjQuODU3IDE5OS4xNDNoLTEzNy4xNDN2MTM3LjE0M2gxMzcuMTQzdi0xMzcuMTQzeiIgcC1pZD0iNDEyNyIgZmlsbD0iIzAwMDAwMCI+PC9wYXRoPjwvc3ZnPg=="
+                >
+                <p>二维码</p>
+              </li>
+              <li>
+                <img 
+                  @dragstart="dragPanelHandle('bar_code')" 
+                  @dragend="dragPanelHandle(null)" 
+                  src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTY0MDIwNTE5NDY2IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjMyODMiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzIiIGhlaWdodD0iMzIiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTY0IDEyNy44MDhsMTE1Ljg0IDAgMCA3NjguMzg0LTExNS44NCAwIDAtNzY4LjM4NFoiIHAtaWQ9IjMyODQiIGZpbGw9IiMwMDAwMDAiPjwvcGF0aD48cGF0aCBkPSJNMjE3LjYgMTI3LjgwOGw1NC40NjQgMCAwIDc2OC4zODQtNTQuNDY0IDAgMC03NjguMzg0WiIgcC1pZD0iMzI4NSIgZmlsbD0iIzAwMDAwMCI+PC9wYXRoPjxwYXRoIGQ9Ik0zNDIuOTEyIDEyNy44MDhsNjguNTQ0IDAgMCA3NjguMzg0LTY4LjU0NCAwIDAtNzY4LjM4NFoiIHAtaWQ9IjMyODYiIGZpbGw9IiMwMDAwMDAiPjwvcGF0aD48cGF0aCBkPSJNNTM5LjEzNiAxMjcuODA4bDExOC4yNzIgMCAwIDc2OC4zODQtMTE4LjI3MiAwIDAtNzY4LjM4NFoiIHAtaWQ9IjMyODciIGZpbGw9IiMwMDAwMDAiPjwvcGF0aD48cGF0aCBkPSJNNjg4LjA2NCAxMjcuODA4bDQ0Ljk5MiAwIDAgNzY4LjM4NC00NC45OTIgMCAwLTc2OC4zODRaIiBwLWlkPSIzMjg4IiBmaWxsPSIjMDAwMDAwIj48L3BhdGg+PHBhdGggZD0iTTgwMy45NjggMTI3LjgwOGwxNTYuMDMyIDAgMCA3NjguMzg0LTE1Ni4wMzIgMCAwLTc2OC4zODRaIiBwLWlkPSIzMjg5IiBmaWxsPSIjMDAwMDAwIj48L3BhdGg+PC9zdmc+"
+                >
+                <p>条形码</p>
+              </li>                            
               <li>
                 <img 
                   @dragstart="dragPanelHandle('text')" 
@@ -418,7 +446,7 @@
     <div class="tool-selected">
 
 
-      <Collapse v-if="fabricType=='img'" v-model="Collapse3">
+      <Collapse v-if="(fabricType=='img')||(fabricType=='QR_code')||(fabricType=='bar_code')" v-model="Collapse3">
           <Panel name="1">
               图片-设置  
               <ul slot="content" class="control-param">
@@ -428,11 +456,12 @@
                 </li> -->
                 <li>
                     <label>图片URL:</label>
-                    <Button @click="addImgBackgroundURL" size="small" type="info" shape="circle" icon="iconfont icon-md-add" title="新增" style="line-height:25px;"></Button>
+                    <i @click="addImgBackgroundURL" size="small" type="info" shape="circle" class="iconfont icon-add" title="新增" style="line-height:25px;cursor:pointer;"></i>
                 </li>                
               </ul>
           </Panel>
       </Collapse> 
+     
       <Collapse v-else v-model="Collapse3">
           <Panel name="1">
               画布-设置  
@@ -445,14 +474,14 @@
                     <label>高(px):</label>
                     <InputNumber v-model="canvasHeight" :width="110" :max="3000" :min="100" :step="10"></InputNumber>              
                 </li>
-                <li>
+                <!-- <li>
                     <label>背景色:</label>
                     <ColorPicker v-model="canvasBackground" />
                 </li>
                 <li>
                     <label>背景URL:</label>
-                    <Button @click="addBackgroundURL" size="small" type="info" shape="circle" icon="iconfont icon-md-add" title="新增" style="line-height:25px;"></Button>
-                </li>                
+                    <i @click="addBackgroundURL" size="small" type="info" shape="circle" class="iconfont icon-add" title="新增" style="line-height:25px;cursor:pointer;"></i>
+                </li>                 -->
               </ul>
           </Panel>
       </Collapse>      
@@ -471,7 +500,7 @@
 
       <!-- 画布背景 modal -->
       <Modal
-          v-if="fabricType=='img'"
+          v-if="( (fabricType=='img') || (fabricType=='QR_code') || (fabricType=='bar_code') )"
           v-model="modalCanvas"
           title="设置-图片背景"
           @on-ok="addImgBackgroundHandle"
@@ -508,7 +537,7 @@
 
 <script>
     import './assets/icon/font.css';
-
+    import {fabric} from 'fabric';
 
 export default {
   data() {
@@ -532,15 +561,16 @@ export default {
       isCopy:false,         // 已复制
       selectionTed:false,   // 是否选中
       fabricType:null,      // 挂件类型
-      config:[],            // 历史记录
-      cacheMax:30,          // 最大 历史记录
-      current:0,            // 当前状态
+      configArr:[],         // 历史记录
+      currentNow:0,        // 当前状态
+
+      cacheMax:100,          // 最大 历史记录
       templateLocal:[],     // 缓存模板
       
 
       // 画布 设置  
       canvasWidth:1100,
-      canvasHeight:1600,
+      canvasHeight:1200,
       fontFamily:'monospace',
       fontSize:14,
     
@@ -572,6 +602,9 @@ export default {
     canvasBackground(newValue) {
         let that = this;
         this.__canvas.set({backgroundColor:newValue},that.__canvas.requestRenderAll());
+
+        this.updateCanvasState();   // 历史记录 缓存
+
     },     
     /**
      * 监听 字体颜色
@@ -602,6 +635,10 @@ export default {
     initCanvas: function(){
       let that = this;
 
+
+
+
+
       // new fabric.StaticCanvas 只读模式
       let canvas = this.__canvas = new fabric.Canvas('c',{
         width:that.canvasWidth||800,
@@ -613,7 +650,22 @@ export default {
       });
       // canvas.loadFromJSON({"version":"3.2.0","objects":[{"type":"rect","version":"3.2.0","originX":"center","originY":"center","left":100,"top":100,"width":50,"height":50,"fill":"#fff","stroke":"#000","strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"clipTo":null,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","transformMatrix":null,"skewX":0,"skewY":0,"rx":0,"ry":0},{"type":"line","version":"3.2.0","originX":"center","originY":"center","left":125,"top":50,"width":150,"height":0,"fill":"rgb(0,0,0)","stroke":"#000","strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"clipTo":null,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","transformMatrix":null,"skewX":0,"skewY":0,"x1":-75,"x2":75,"y1":0,"y2":0},{"type":"line","version":"3.2.0","originX":"center","originY":"center","left":50,"top":125,"width":0,"height":150,"fill":"rgb(0,0,0)","stroke":"#000","strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"clipTo":null,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","transformMatrix":null,"skewX":0,"skewY":0,"x1":0,"x2":0,"y1":-75,"y2":75},{"type":"textbox","version":"3.2.0","originX":"center","originY":"center","left":100,"top":100,"width":90,"height":20.34,"fill":"rgb(0,0,0)","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"clipTo":null,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","transformMatrix":null,"skewX":0,"skewY":0,"text":"文本。。。","fontSize":18,"fontWeight":"normal","fontFamily":"monospace","fontStyle":"normal","lineHeight":1.16,"underline":false,"overline":false,"linethrough":false,"textAlign":"left","textBackgroundColor":"","charSpacing":0,"minWidth":20,"splitByGrapheme":false,"styles":{}}]});
 
+      // 初始化
       fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';  // 对象缺省原点都在中心
+      // fabric.Object.prototype.originX = 'left'; 
+      // fabric.Object.prototype.originY = 'top';
+      
+      // 自定义属性
+      // fabric.Object.prototype.toObject = (function (toObject) {
+      //     return function () {
+      //         return fabric.util.object.extend(toObject.call(this), {
+      //             node_type:'default',  // 数据节点类型
+      //         });
+      //     };
+      // })(fabric.Object.prototype.toObject);
+      
+      
+      
       // fabric.Object.prototype.centeredRotation = false
 
       // console.log(  JSON.stringify(canvas) );
@@ -652,10 +704,17 @@ export default {
               break;
             case 'img':			// 图片
               that.addImg(defaultConfig);
+              break;
+            case 'QR_code':			// 二维码
+              that.addQRCode(defaultConfig);
               break;	
+            case 'bar_code':			// 条形码
+              that.addBarCode(defaultConfig);
+              break;	                            	
             case 'text':			// 文本
               that.addText(defaultConfig);
-              break;																				
+              break;
+
             default:
               break;
           }
@@ -668,20 +727,26 @@ export default {
         /************   对象 事件 begin   *****************/
         // 对象 创建  
         this.__canvas.on('object:added', function(option) {
-            // (option['jsonSource']!='history') && that.cacheStatus();  // 缓存
+            console.log(option);
+          // that.updateCanvasState();  // 缓存历史记录
         });
 
         // 对象 删除 
         this.__canvas.on('object:removed', function(option) {
-
-            // that.cacheStatus();  // 缓存
+          that.updateCanvasState();    // 缓存历史记录
+ 
         });
 
         // 对象 修改  
         this.__canvas.on('object:modified', function(option) {
+            console.log(option);
 
-            // that.cacheStatus();  // 缓存
+          that.updateCanvasState();    // 缓存历史记录
+ 
         });
+
+
+
         
 
         /************   对象 事件 over   *****************/
@@ -741,27 +806,29 @@ export default {
 
 
 
-    },
+    }, 
+    /**
+     *  历史记录  
+     */
+    updateCanvasState: function(){
+        let json = this.__canvas.toJSON();
+        let arr = this.configArr;
+
+        if( arr['length'] >= this.cacheMax ){
+          arr = arr.splice(1)
+        }
+
+        this.configArr = arr.concat([json]);
+        this.currentNow = (this.configArr['length'])-1;
+
+
+    },  
     /**
      *  使用自定义 模板
      */
     templateLoader: function(json){
         let canvas = this.__canvas;
         canvas.loadFromJSON(json,canvas.renderAll.bind(canvas));
-    },
-    /**
-     *  缓存  状态
-     */
-    cacheStatus: function(){
-        let json = this.__canvas.toJSON();
-        let config = this.config;
-        
-        if( config['length'] >= this.cacheMax ){
-            config = config.slice(1);
-        }
-        
-        this.config = config.concat([Object.assign({},json,{jsonSource:'history'})]);
-        this.current = this.config['length']-1;
     },
     /**
      * ***********************    面板 事件  begin   **********************
@@ -805,24 +872,27 @@ export default {
 
         if( !url ) return;
 
-        fabric.Image.fromURL(url, function(img) {
-          // img.scale(0.5).set({
-          //   left: 100,
-          //   top: 100,
-          //   angle: -15,
-          //   clipTo: function (ctx) {
-          //     ctx.arc(0, 0, radius, 0, Math.PI * 2, true);
-          //   }
-          // });
-          img.set({
-            fabricType:'img',  // 挂件类型
-            left: object['left'],
-            top: object['top'],
-          });
-          canvas.add(img).setActiveObject(img);
-          canvas.remove(object);  
+        object.setSrc(url,canvas.renderAll.bind(canvas));
+        // fabric.Image.fromURL(url, function(img) {
+        //   // img.scale(0.5).set({
+        //   //   left: 100,
+        //   //   top: 100,
+        //   //   angle: -15,
+        //   //   clipTo: function (ctx) {
+        //   //     ctx.arc(0, 0, radius, 0, Math.PI * 2, true);
+        //   //   }
+        //   // });
+        //   img.set({
+        //     fabricType:'img',  // 挂件类型
+        //     left: object['left'],
+        //     top: object['top'],
+        //   });
+        //   canvas.add(img).setActiveObject(img);
+        //   canvas.remove(object);  
 
-        });
+        // });
+
+        // this.updateCanvasState();   // 历史记录 缓存
     },         
     /**
      * 设置 画布背景
@@ -838,6 +908,8 @@ export default {
           originX: 'left',
           originY: 'top'
         });
+
+        this.updateCanvasState();   // 历史记录 缓存
     },
     /**
      *  工具 事件
@@ -892,7 +964,6 @@ export default {
      */
     updateTemplateFunuc: function(){ 
         let tpl = localStorage.getItem("templateCustom")||"[]";
-
         this.templateLocal = JSON.parse( tpl );
 
     },
@@ -907,45 +978,29 @@ export default {
     */    
     toolEventUndo: function(){
         let that = this; 
-        let canvas = this.__canvas;      
-        let cur = this.current;
+        let canvas = this.__canvas;  
+        let config = this.configArr;  
+        let cur =  this.currentNow; 
 
-
-        // if( cur > 0 ) {
-        //   this.current = cur-1;
-
-        //   this.$nextTick(()=>{
-        //     let len = that.current;
-        //     canvas.loadFromJSON(that.config[len],canvas.renderAll.bind(canvas),function(json,obj){
-        //       obj.set({jsonSource:"history"});
-        //     });
-        //   });
-
-
-        //   console.log( this.current );
-        //   console.log( this.config );
-        // }
+        if( cur > 0 ) {
+          this.currentNow = cur-1;
+          canvas.loadFromJSON(config[this.currentNow],canvas.renderAll.bind(canvas));
+       
+        }
     },
     /**
      *  tool 重做
      */    
     toolEventRedo: function(){
         let that = this; 
-        let canvas = this.__canvas;
-        let cur = this.current;
+        let canvas = this.__canvas;  
+        let config = this.configArr;  
+        let cur =  this.currentNow; 
 
-        // if( cur < (that.config.length-1) ) {
-        //   this.current = cur+1;
-
-        //   this.$nextTick(()=>{
-        //     let len = that.current;
-        //     canvas.loadFromJSON(that.config[len],canvas.renderAll.bind(canvas),function(json,obj){
-        //       obj.set({jsonSource:"history"});
-        //     });
-        //   });
-        // }
-
-
+        if( cur < config['length'] ) {
+          this.currentNow = cur+1;
+          canvas.loadFromJSON(config[this.currentNow],canvas.renderAll.bind(canvas));
+        }
     },        
     /**
      *  tool 保存
@@ -971,7 +1026,7 @@ export default {
 
         let json = this.__canvas.toJSON();
         let temp = localStorage.getItem("templateCustom") || "[]";    
-        let newJson = JSON.parse(temp).concat([Object.assign({},json,{templateName:name,createTime:new Date().toLocaleString()})]);
+        let newJson = ([Object.assign({},json,{templateName:name,createTime:new Date().toLocaleString()})]).concat(JSON.parse(temp));
 
         localStorage.setItem("templateCustom",JSON.stringify(newJson) );
         this.updateTemplateFunuc();    // 刷新模板
@@ -980,9 +1035,11 @@ export default {
         this.$Notice.open({
             duration:0,
             title: '保存json文件',
-            desc: JSON.stringify( json ) 
+            desc: `<div style="height:300px;overflow:scroll;">${JSON.stringify( json )}</div>` 
         });
 
+        console.log( this.__canvas.toJSON() );
+        console.log( this.__canvas.toObject() );
     },
     /**
      *  tool 预览
@@ -1207,7 +1264,17 @@ export default {
           default:
             break;
         }
-    },  
+    }, 
+    /**
+     *  字体 对齐 
+    */   
+    textAlignChange: function(active){
+        let that = this;
+        let objects = this.__canvas.getActiveObjects();
+
+        if( !objects['length'] ) return;  
+        objects.map(o=>o.set({textAlign:active,},that.__canvas.requestRenderAll()) );
+    }, 
     /**
      * 字体 样式
     */  
@@ -1271,6 +1338,7 @@ export default {
      * 	add 方形
      */
     addRect: function(option){
+      
       let rect = new fabric.Rect({
         width: 300,
         height: 300,
@@ -1283,6 +1351,8 @@ export default {
         // selectable: false
 
       });	  
+
+
       this.__canvas.add(rect);
       // this.__canvas.renderAll();
     },	
@@ -1307,6 +1377,8 @@ export default {
           stroke:'#000', //线的颜色   
           padding:20, 
       });
+
+
       this.__canvas.add(lineVertical);
     },
     /**
@@ -1315,26 +1387,106 @@ export default {
     addImg: function(option){
       let canvas = this.__canvas;
 
-      fabric.Image.fromURL('https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg',function(img) {
+      fabric.Image.fromURL('../src/views/pc/master/BI/template/assets/img/node_img.svg',function(img) {
+        // fabric.Image.fromURL('https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg',function(img) {
+        // 添加滤镜
+        // img.filters.push(new fabric.Image.filters.Grayscale());
+        // 图片加载完成之后，应用滤镜效果
+        // img.applyFilters();
+        // 将处理后的图片添加到canvas画布上
+        
+        img.set({
+          fabricType:'img',  // 挂件类型
+          left: option['layerX']||100,
+          top: option['layerY']||100,
+        });
+
+
+        img.toObject = (function (toObject) {
+            return function () {
+                return fabric.util.object.extend(toObject.call(this), {
+                    node_type:'img',  // 数据节点类型
+                });
+            };
+        })(img.toObject);
+
+
+        // console.log(img);
+        canvas.add(img);
+      })
+
+      // console.log( fabric );
+    },
+    /**
+     * 	add 二维码
+     */
+    addQRCode: function(option){
+      let canvas = this.__canvas;
+
+      fabric.Image.fromURL('../src/views/pc/master/BI/template/assets/img/QR_code.png',function(img) {
+        // fabric.Image.fromURL('https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg',function(img) {
         // 添加滤镜
         // img.filters.push(new fabric.Image.filters.Grayscale());
         // 图片加载完成之后，应用滤镜效果
         // img.applyFilters();
         // 将处理后的图片添加到canvas画布上
         img.set({
-          fabricType:'img',  // 挂件类型
+          fabricType:'QR_code',  // 挂件类型
           left: option['layerX']||100,
           top: option['layerY']||100,
         });
+
+
+        img.toObject = (function (toObject) {
+            return function () {
+                return fabric.util.object.extend(toObject.call(this), {
+                    node_type:'QR_code',  // 数据节点类型
+                });
+            };
+        })(img.toObject);
+
         canvas.add(img);
       })
-    },
+    },  
+    /**
+     * 	add 条形码
+     */
+    addBarCode: function(option){
+      let canvas = this.__canvas;
+
+      fabric.Image.fromURL('../src/views/pc/master/BI/template/assets/img/bar_code.png',function(img) {
+        // fabric.Image.fromURL('https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg',function(img) {
+        // 添加滤镜
+        // img.filters.push(new fabric.Image.filters.Grayscale());
+        // 图片加载完成之后，应用滤镜效果
+        // img.applyFilters();
+        // 将处理后的图片添加到canvas画布上
+        img.set({
+          fabricType:'bar_code',  // 挂件类型
+          left: option['layerX']||100,
+          top: option['layerY']||100,
+        });
+
+        img.toObject = (function (toObject) {
+            return function () {
+                return fabric.util.object.extend(toObject.call(this), {
+                    node_type:'bar_code',  // 数据节点类型
+                });
+            };
+        })(img.toObject);
+
+
+
+        canvas.add(img);
+      })
+    },       
     /**
      * 	add text 
      */
     addText: function(option){
       let that = this;
       let textbox = new fabric.Textbox('请输入文本...', {
+        node_type:'text',  // 节点标识
         fabricType:'text',  // 挂件类型
         left: option['layerX']||100,
         top: option['layerY']||100,
@@ -1345,6 +1497,15 @@ export default {
         originX:'left',
         originY:'center',
       });
+
+      textbox.toObject = (function (toObject) {
+          return function () {
+              return fabric.util.object.extend(toObject.call(this), {
+                  node_type:'text',  // 数据节点类型
+              });
+          };
+      })(textbox.toObject);
+
       this.__canvas.add(textbox);
     }
   }
